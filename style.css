@@ -261,6 +261,23 @@ input[type="file"] {
   font-size: calc(var(--btn-font-size) * 1.8);
   padding: calc(var(--btn-padding-y) * 1.4) calc(var(--btn-padding-x) * 1.6);
 }
+/* Increase Choose File button */
+input[type="file"] {
+  font-size: 1.2rem;      /* increase text size */
+  padding: 10px 14px;     /* add internal padding */
+  height: 50px;           /* increase height */
+  width: 260px;           /* optional: widen it */
+  border-radius: 8px;     /* rounded corners */
+}
+
+/* Increase Month dropdown */
+#monthFilter {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;
+  width: auto;            /* or set a specific width like 180px */
+  border-radius: 8px;
+}
 
 /* Hover effect for elegance */
 button:hover,
