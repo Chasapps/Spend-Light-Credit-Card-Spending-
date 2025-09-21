@@ -54,7 +54,6 @@ function loadCsvText(csvText) {
     if (!r || r.length < 10) continue;
     const effectiveDate = r[COL.DATE] || '';
     const debit = parseAmount(r[COL.DEBIT]);
-    if (debit === 0) continue;
     const longDesc = (r[COL.LONGDESC] || '').trim();
     if (!effectiveDate && !longDesc) continue;
     txns.push({ date: effectiveDate, amount: debit, description: longDesc });
