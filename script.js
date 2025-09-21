@@ -58,6 +58,7 @@ function loadCsvText(csvText) {
     if ( (effectiveDate || longDesc) && Number.isFinite(debit) && debit !== 0 ) {
        txns.push({ date: effectiveDate, amount: debit, description: longDesc });
     }
+  }
   CURRENT_TXNS = txns; saveTxnsToLocalStorage();
   try { updateMonthBanner(); } catch {}
   rebuildMonthDropdown();
