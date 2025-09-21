@@ -262,3 +262,27 @@ input[type="file"] {
   width: auto;            /* or set a specific width like 180px */
   border-radius: 8px;
 }
+/* Bigger 'Choose File' */
+#csvFile {           /* use your input's id if different */
+  font-size: 1.2rem;
+}
+#csvFile::file-selector-button {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;          /* works in modern Safari/iOS */
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+/* Fallback for older Safari */
+@supports not (selector(::file-selector-button)) {
+  #csvFile { transform: scale(1.2); transform-origin: left center; }
+}
+
+/* Bigger month dropdown */
+#monthFilter {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;
+  border-radius: 8px;
+}
