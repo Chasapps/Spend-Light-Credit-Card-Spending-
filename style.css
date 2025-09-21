@@ -285,4 +285,29 @@ input[type="file"] {
   padding: 10px 14px;
   height: 50px;
   border-radius: 8px;
+}/* Bigger 'Choose File' (your input has id="csvFile") */
+#csvFile { font-size: 1.2rem; }
+#csvFile::file-selector-button {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+/* Older Safari fallback */
+#csvFile::-webkit-file-upload-button {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* Bigger month dropdown */
+#monthFilter {
+  font-size: 1.2rem;
+  padding: 10px 14px;
+  height: 50px;
+  border-radius: 8px;
 }
