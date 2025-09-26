@@ -1,3 +1,5 @@
+//Actually as I’m only interested in credit amounts can you remove all code related to debit etc as not needed 
+
 // SpendLite v6.6.27 – Month filter + export respects selected month
 // Keeps: UCASE categories, jolly theme, import/export rules, category filter, VISA- keyword, tabs export + grand total
 
@@ -157,19 +159,33 @@ function matchesKeyword(descLower, keywordLower){
     pos = i + p.length;
   }
   return true;
+  
 }
 
-function categorise(txns, rules){
-  for (const t of txns){
-    const descLower = (t.description||'').toLowerCase();
-    let matched = 'UNCATEGORISED';
-    for (const r of rules){
-      if (matchesKeyword(descLower, r.keyword)) { matched = r.category; break; }
+function categorise(txns, rules) {
+  for (const t of txns) {
+    const descLower = String(t.desc || t.description || "").toLowerCase();
+    const amount = Math.abs(Number(t.amount || t.debit || 0));
+
+    // 1) normal rule match
+    let matched = null;
+    for (const r of rules) {
+      if (matchesKeyword(descLower, r.keyword)) {
+        matched = r.category;
+        break;
+      }
     }
-    t.category = matched;
+
+    // 2) special case: tiny purchases at petrol stations → Coffee
+    //    (do it based on the *resulting category*, not the description text)
+    if (matched && String(matched).toUpperCase() === "PETROL" && amount <= 2) {
+      matched = "COFFEE";
+    }
+
+    t.category = matched || "UNCATEGORISED";
   }
-  return txns;
 }
+
 
 function computeCategoryTotals(txns) {
   const byCat = new Map();
@@ -222,9 +238,7 @@ function renderMonthTotals() {
     const label = friendlyMonthOrAll(MONTH_FILTER);
     const cat = CURRENT_FILTER ? ` + category \"${CURRENT_FILTER}\"` : "";
     el.innerHTML = `Showing <span class="badge">${count}</span> transactions for <strong>${friendlyMonthOrAll(MONTH_FILTER)}${cat}</strong> · ` +
-                   `Debit: <strong>$${debit.toFixed(2)}</strong> · ` +
-                   `Credit: <strong>$${credit.toFixed(2)}</strong> · ` +
-                   `Net: <strong>$${net.toFixed(2)}</strong>`;
+                   `Debit: <strong>$${debit.toFixed(2)}</strong> · `;
   }
 }
 
@@ -513,13 +527,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 const SAMPLE_RULES = `# Rules format: KEYWORD => CATEGORY
-OFFICEWORKS => OFFICE SUPPLIES
-COLES => GROCERIES
-SHELL => PETROL
-UBER => TRANSPORT
-WOOLWORTHS => GROCERIES
-BP => PETROL
-BUNNINGS => HARDWARE
 `;
 
 // --- Transactions collapse logic ---
@@ -616,4 +623,4 @@ window.addEventListener('beforeunload', () => {
   try { localStorage.setItem(LS_KEYS.TXNS_JSON, JSON.stringify(CURRENT_TXNS||[])); } catch {}
 });
 document.getElementById('exportTotalsBtn')
-  .addEventListener('click', exportTotals);
+  .addEventListener('click', exportTotals); SpendLite v6.6.27 – Month filter + export respects selected 
